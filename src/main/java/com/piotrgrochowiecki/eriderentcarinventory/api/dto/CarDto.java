@@ -1,4 +1,4 @@
-package com.piotrgrochowiecki.eriderentcarinventory.api;
+package com.piotrgrochowiecki.eriderentcarinventory.api.dto;
 
 import lombok.Builder;
 

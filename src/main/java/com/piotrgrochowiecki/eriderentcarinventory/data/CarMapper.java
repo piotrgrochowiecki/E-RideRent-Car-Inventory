@@ -1,6 +1,6 @@
 package com.piotrgrochowiecki.eriderentcarinventory.data;
 
-import com.piotrgrochowiecki.eriderentcarinventory.domain.Car;
+import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Car;
 import org.springframework.stereotype.Component;
 
 @Component

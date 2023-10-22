@@ -1,7 +1,7 @@
 package com.piotrgrochowiecki.eriderentcarinventory.data;
 
-import com.piotrgrochowiecki.eriderentcarinventory.domain.Car;
-import com.piotrgrochowiecki.eriderentcarinventory.domain.CarRepository;
+import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Car;
+import com.piotrgrochowiecki.eriderentcarinventory.domain.repository.CarRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
