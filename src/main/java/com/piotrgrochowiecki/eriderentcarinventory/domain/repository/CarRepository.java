@@ -1,5 +1,6 @@
-package com.piotrgrochowiecki.eriderentcarinventory.domain;
+package com.piotrgrochowiecki.eriderentcarinventory.domain.repository;
 
+import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Car;
 import org.springframework.lang.Nullable;
 
 import java.util.List;

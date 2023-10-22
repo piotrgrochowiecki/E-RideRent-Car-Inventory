@@ -1,4 +1,4 @@
-package com.piotrgrochowiecki.eriderentcarinventory.domain;
+package com.piotrgrochowiecki.eriderentcarinventory.domain.model;
 
 import lombok.Builder;
 

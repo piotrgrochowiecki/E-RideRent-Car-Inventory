@@ -1,7 +1,8 @@
-package com.piotrgrochowiecki.eriderentcarinventory.api;
+package com.piotrgrochowiecki.eriderentcarinventory.api.controller;
 
-import com.piotrgrochowiecki.eriderentcarinventory.domain.CarAlreadyExistsRuntimeException;
-import com.piotrgrochowiecki.eriderentcarinventory.domain.NotFoundRuntimeException;
+import com.piotrgrochowiecki.eriderentcarinventory.api.dto.RuntimeExceptionDto;
+import com.piotrgrochowiecki.eriderentcarinventory.domain.exception.CarAlreadyExistsRuntimeException;
+import com.piotrgrochowiecki.eriderentcarinventory.domain.exception.NotFoundRuntimeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
