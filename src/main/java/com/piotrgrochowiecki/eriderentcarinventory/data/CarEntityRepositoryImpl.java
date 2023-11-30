@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
-public class CarRepositoryImpl implements CarRepository {
+public class CarEntityRepositoryImpl implements CarRepository {
 
     private final CarCRUDRepository carCRUDRepository;
     private final CarMapper carMapper;
