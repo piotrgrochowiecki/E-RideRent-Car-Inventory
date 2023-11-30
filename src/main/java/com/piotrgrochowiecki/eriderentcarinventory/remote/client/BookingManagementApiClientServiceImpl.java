@@ -1,9 +1,9 @@
 package com.piotrgrochowiecki.eriderentcarinventory.remote.client;
 
 import com.piotrgrochowiecki.eriderentcarinventory.remote.dto.BookingResponseDto;
-import com.piotrgrochowiecki.eriderentcarinventory.remote.mapper.ApiMapper;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Booking;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.client.BookingManagementApiClientService;
+import com.piotrgrochowiecki.eriderentcarinventory.remote.mapper.BookingApiMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 public class BookingManagementApiClientServiceImpl implements BookingManagementApiClientService {
 
     private final RestTemplate restTemplate;
-    private final ApiMapper apiMapper;
+    private final BookingApiMapper bookingApiMapper;
 
     @Override
     public List<Booking> getAllBookingsOverlappingWithDates(LocalDate newBookingStartDate, LocalDate newBookingEndDate) {
         String url = BOOKING_MANAGEMENT_API_ENDPOINT + "all-overlapping-with-dates/" + newBookingStartDate + "/" + newBookingEndDate;
         BookingResponseDto[] bookingResponseDtos = restTemplate.getForObject(url, BookingResponseDto[].class); //TODO sprawdzić metodę exchange (pozwoli na pobranie listy)
         return Arrays.stream(bookingResponseDtos).toList().stream()
-                .map(apiMapper::mapToModel)
+                .map(bookingApiMapper::mapToModel)
                 .collect(Collectors.toList());
     }
     //TODO poprawić url, bo zmieniono daty na query param, użyć WebClienta
