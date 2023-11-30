@@ -15,6 +15,7 @@ public class ERideRentCarInventoryApplication {
 
     @Bean
     public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        //TODO można tutaj ustawiać timeouty
         return builder.build();
     }
 

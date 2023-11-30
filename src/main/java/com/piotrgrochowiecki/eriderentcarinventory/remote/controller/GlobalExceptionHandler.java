@@ -1,6 +1,6 @@
-package com.piotrgrochowiecki.eriderentcarinventory.api.controller;
+package com.piotrgrochowiecki.eriderentcarinventory.remote.controller;
 
-import com.piotrgrochowiecki.eriderentcarinventory.api.dto.RuntimeExceptionDto;
+import com.piotrgrochowiecki.eriderentcarinventory.remote.dto.RuntimeExceptionDto;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.exception.CarAlreadyExistsRuntimeException;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.exception.NotFoundRuntimeException;
 import org.springframework.http.HttpStatus;

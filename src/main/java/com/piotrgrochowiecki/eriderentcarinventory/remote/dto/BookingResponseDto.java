@@ -1,4 +1,4 @@
-package com.piotrgrochowiecki.eriderentcarinventory.api.dto;
+package com.piotrgrochowiecki.eriderentcarinventory.remote.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;

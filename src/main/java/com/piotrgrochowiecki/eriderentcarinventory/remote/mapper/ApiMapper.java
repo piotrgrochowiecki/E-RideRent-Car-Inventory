@@ -1,7 +1,7 @@
-package com.piotrgrochowiecki.eriderentcarinventory.api.mapper;
+package com.piotrgrochowiecki.eriderentcarinventory.remote.mapper;
 
-import com.piotrgrochowiecki.eriderentcarinventory.api.dto.BookingResponseDto;
-import com.piotrgrochowiecki.eriderentcarinventory.api.dto.CarDto;
+import com.piotrgrochowiecki.eriderentcarinventory.remote.dto.BookingResponseDto;
+import com.piotrgrochowiecki.eriderentcarinventory.remote.dto.CarCreateRequestDto;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Booking;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Car;
 import org.springframework.stereotype.Component;
@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApiMapper {
 
-    public Car mapToModel(CarDto carDto) {
+    public Car mapToModel(CarCreateRequestDto carCreateRequestDto) {
         return Car.builder()
-                .uuid(carDto.uuid())
-                .brand(carDto.brand())
-                .model(carDto.model())
-                .plateNumber(carDto.planeNumber())
+                .uuid(carCreateRequestDto.uuid())
+                .brand(carCreateRequestDto.brand())
+                .model(carCreateRequestDto.model())
+                .plateNumber(carCreateRequestDto.planeNumber())
                 .build();
     }
 
@@ -28,8 +28,8 @@ public class ApiMapper {
                 .build();
     }
 
-    public CarDto mapToDto(Car car) {
-        return CarDto.builder()
+    public CarCreateRequestDto mapToDto(Car car) {
+        return CarCreateRequestDto.builder()
                 .uuid(car.uuid())
                 .brand(car.brand())
                 .model(car.model())

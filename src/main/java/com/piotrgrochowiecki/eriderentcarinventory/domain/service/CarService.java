@@ -23,28 +23,27 @@ public class CarService {
     private final BookingManagementApiClientService bookingManagementClient;
 
     public Car add(@Nullable Car car) {
-        assert car != null;
+        assert car != null; //TODO assert do wyrzucenia, @Nullable też jeśli sprawdzanie wykonywane jest wyżej
         if (doesCarAlreadyExists(car.plateNumber())) {
             throw new CarAlreadyExistsRuntimeException(car.plateNumber());
         }
         return carRepository.save(car);
     }
 
-    public Car getById(@Nullable Long id) {
-        assert id != null;
-        if(carRepository.findById(id).isEmpty()) {
-            throw new NotFoundRuntimeException(id.toString());
-        }
-        return carRepository.findById(id).get();
+    public Car getById(Long id) {
+        return carRepository.findById(id)
+                .orElseThrow(() -> new NotFoundRuntimeException("id"));
     }
 
     public Car getByUuid(@Nullable String uuid) {
         assert uuid != null;
-        if(carRepository.findByUuid(uuid).isEmpty()) {
+        if(carRepository.findByUuid(uuid)
+                .isEmpty()) {
             throw new NotFoundRuntimeException(uuid);
         }
         return carRepository.findByUuid(uuid).get();
     }
+    //TODO zmniejszyć tabulację na np. 2 lub 3 znaki (obecnie prawdopodobnie 4)
 
     public List<Car> getAll() {
         return carRepository.findAll();
@@ -58,6 +57,8 @@ public class CarService {
             Optional<Car> carOptional = carRepository.findByUuid(booking.carUuid());
             carsNotAvailable.add(carOptional.get());
         }
+        //TODO spróbować wszystko przerobić na jeden stream
+        //TODO różnice między streamem, a pętlą for: stream jest mniej wydajny przy dużej ilości danych -> poczytać
 
         List<Car> availableCars = getAll();
         availableCars.removeAll(carsNotAvailable);
@@ -66,7 +67,8 @@ public class CarService {
     }
 
     private boolean doesCarAlreadyExists(String plateNumber) {
-        return carRepository.findByPlateNumber(plateNumber).isPresent();
+        return carRepository.findByPlateNumber(plateNumber)
+                .isPresent(); //TODO przerobić w repo na existBy, bo wtedy nie pobieramy całego obiektu skoro nie potrzebujemy
     }
 
 }
