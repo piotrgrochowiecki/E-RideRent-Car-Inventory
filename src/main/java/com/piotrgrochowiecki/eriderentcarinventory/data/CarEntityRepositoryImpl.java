@@ -57,4 +57,9 @@ public class CarEntityRepositoryImpl implements CarRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean existsByPlateNumber(String plateNumber) {
+        return carCRUDRepository.existsByPlateNumber(plateNumber);
+    }
+
 }

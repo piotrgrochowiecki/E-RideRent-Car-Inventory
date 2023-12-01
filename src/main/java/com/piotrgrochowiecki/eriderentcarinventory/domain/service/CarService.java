@@ -7,7 +7,6 @@ import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Booking;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Car;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.repository.CarRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,9 +21,8 @@ public class CarService {
     private final CarRepository carRepository;
     private final BookingManagementApiClientService bookingManagementClient;
 
-    public Car add(@Nullable Car car) {
-        assert car != null; //TODO assert do wyrzucenia, @Nullable też jeśli sprawdzanie wykonywane jest wyżej
-        if (doesCarAlreadyExists(car.plateNumber())) {
+    public Car add(Car car) {
+        if (carRepository.existsByPlateNumber(car.plateNumber())) {
             throw new CarAlreadyExistsRuntimeException(car.plateNumber());
         }
         return carRepository.save(car);
@@ -32,18 +30,13 @@ public class CarService {
 
     public Car getById(Long id) {
         return carRepository.findById(id)
-                .orElseThrow(() -> new NotFoundRuntimeException("id"));
+                .orElseThrow(() -> new NotFoundRuntimeException(id.toString()));
     }
 
-    public Car getByUuid(@Nullable String uuid) {
-        assert uuid != null;
-        if(carRepository.findByUuid(uuid)
-                .isEmpty()) {
-            throw new NotFoundRuntimeException(uuid);
-        }
-        return carRepository.findByUuid(uuid).get();
+    public Car getByUuid(String uuid) {
+        return carRepository.findByUuid(uuid)
+                .orElseThrow(() -> new NotFoundRuntimeException(uuid));
     }
-    //TODO zmniejszyć tabulację na np. 2 lub 3 znaki (obecnie prawdopodobnie 4)
 
     public List<Car> getAll() {
         return carRepository.findAll();
@@ -64,11 +57,6 @@ public class CarService {
         availableCars.removeAll(carsNotAvailable);
         return availableCars;
 
-    }
-
-    private boolean doesCarAlreadyExists(String plateNumber) {
-        return carRepository.findByPlateNumber(plateNumber)
-                .isPresent(); //TODO przerobić w repo na existBy, bo wtedy nie pobieramy całego obiektu skoro nie potrzebujemy
     }
 
 }

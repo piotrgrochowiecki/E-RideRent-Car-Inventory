@@ -18,4 +18,6 @@ public interface CarRepository {
 
     List<Car> findAll();
 
+    boolean existsByPlateNumber(String plateNumber);
+
 }
