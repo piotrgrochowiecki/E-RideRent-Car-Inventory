@@ -4,35 +4,54 @@ import com.piotrgrochowiecki.eriderentcarinventory.remote.dto.BookingResponseDto
 import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Booking;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.client.BookingManagementApiClientService;
 import com.piotrgrochowiecki.eriderentcarinventory.remote.mapper.BookingApiMapper;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class BookingManagementApiClientServiceImpl implements BookingManagementApiClientService {
 
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
     private final BookingApiMapper bookingApiMapper;
+
+    @Value("${url.bookingManagement}")
+    private String BOOKING_MANAGEMENT_HOST;
+
+    @Value("${url.bookingManagement.booking}")
+    private String BOOKING_MANAGEMENT;
+
+    @Value("${url.bookingManagement.booking.overlapping}")
+    private String BOOKING_MANAGEMENT_OVERLAPPING;
 
     @Override
     public List<Booking> getAllBookingsOverlappingWithDates(LocalDate newBookingStartDate, LocalDate newBookingEndDate) {
-        String url = BOOKING_MANAGEMENT_API_ENDPOINT + "all-overlapping-with-dates/" + newBookingStartDate + "/" + newBookingEndDate;
-        BookingResponseDto[] bookingResponseDtos = restTemplate.getForObject(url, BookingResponseDto[].class); //TODO sprawdzić metodę exchange (pozwoli na pobranie listy)
-        return Arrays.stream(bookingResponseDtos).toList().stream()
+        List<BookingResponseDto> responseList = webClient.get()
+                .uri(BOOKING_MANAGEMENT_HOST + BOOKING_MANAGEMENT + BOOKING_MANAGEMENT_OVERLAPPING + newBookingEndDate + "/" + newBookingEndDate)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<BookingResponseDto>>() {})
+                .block();
+        if(responseList == null) {
+            throw new RuntimeException("Did not receive response from Booking Service");
+        }
+        return responseList.stream()
                 .map(bookingApiMapper::mapToModel)
                 .collect(Collectors.toList());
     }
-    //TODO poprawić url, bo zmieniono daty na query param, użyć WebClienta
-    
 
-    //TODO obsłużyć błąd 500 i inne (pomyśleć co aplikacja może innego wysłać) i dodać logowanie np.logback.
-    // W mikroserwisach często korzysta się z zewnętrzych usług logujących, np. Cloud Watch na AWS
-    // złapać za pomocą try-catch, zalogować oraz zwrócić swój wyjątek np. RestException
-    // można też spróbować wysłać żądanie ponownie
 }
