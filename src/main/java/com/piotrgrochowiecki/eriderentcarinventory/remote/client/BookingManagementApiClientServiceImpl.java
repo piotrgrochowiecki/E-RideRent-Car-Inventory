@@ -4,21 +4,14 @@ import com.piotrgrochowiecki.eriderentcarinventory.remote.dto.BookingResponseDto
 import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Booking;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.client.BookingManagementApiClientService;
 import com.piotrgrochowiecki.eriderentcarinventory.remote.mapper.BookingApiMapper;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
-import java.lang.reflect.Type;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
