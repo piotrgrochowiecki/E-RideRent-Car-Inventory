@@ -10,9 +10,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -43,20 +43,20 @@ public class CarService {
     }
 
     public List<Car> getAvailableCars(LocalDate newBookingStartDate, LocalDate newBookingEndDate) {
+        List<Car> carsNotAvailable = getCarsNotAvailable(newBookingStartDate, newBookingEndDate);
+        return carRepository.findAll()
+                .stream()
+                .filter(car -> !carsNotAvailable.contains(car))
+                .collect(Collectors.toList());
+    }
+
+    private List<Car> getCarsNotAvailable(LocalDate newBookingStartDate, LocalDate newBookingEndDate) {
         List<Booking> existingBookingsInRequestedPeriod = bookingManagementClient.getAllBookingsOverlappingWithDates(newBookingStartDate, newBookingEndDate);
-        List<Car> carsNotAvailable = new ArrayList<>();
-
-        for(Booking booking : existingBookingsInRequestedPeriod) {
-            Optional<Car> carOptional = carRepository.findByUuid(booking.carUuid());
-            carsNotAvailable.add(carOptional.get());
-        }
-        //TODO spróbować wszystko przerobić na jeden stream
-        //TODO różnice między streamem, a pętlą for: stream jest mniej wydajny przy dużej ilości danych -> poczytać
-
-        List<Car> availableCars = getAll();
-        availableCars.removeAll(carsNotAvailable);
-        return availableCars;
-
+        return existingBookingsInRequestedPeriod.stream()
+                .map(booking -> carRepository.findByUuid(booking.carUuid()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .toList();
     }
 
 }
