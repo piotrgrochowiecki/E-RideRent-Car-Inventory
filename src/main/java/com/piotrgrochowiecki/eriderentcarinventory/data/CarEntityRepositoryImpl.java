@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Repository
 @AllArgsConstructor
-public class CarRepositoryImpl implements CarRepository {
+public class CarEntityRepositoryImpl implements CarRepository {
 
     private final CarCRUDRepository carCRUDRepository;
     private final CarMapper carMapper;
@@ -55,6 +55,11 @@ public class CarRepositoryImpl implements CarRepository {
                 .stream()
                 .map(carMapper::mapToModel)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean existsByPlateNumber(String plateNumber) {
+        return carCRUDRepository.existsByPlateNumber(plateNumber);
     }
 
 }

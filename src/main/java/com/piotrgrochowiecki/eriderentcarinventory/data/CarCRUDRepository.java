@@ -13,4 +13,6 @@ public interface CarCRUDRepository extends CrudRepository<CarEntity, Long> {
 
     List<CarEntity> findAll();
 
+    boolean existsByPlateNumber(String plateNumber);
+
 }
