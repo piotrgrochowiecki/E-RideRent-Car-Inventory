@@ -1,12 +1,11 @@
 package com.piotrgrochowiecki.eriderentcarinventory.remote.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
-import org.antlr.v4.runtime.misc.NotNull;
 
 @Builder
-public record CarCreateRequestDto(String uuid,
-                                  String brand, //TODO -> dodać validatory z javax.validation. Walidacja powinna być robiona możliwie wysoko
-                                  String model,
-                                  String planeNumber) {
+public record CarCreateRequestDto(@NotBlank String brand,
+                                  @NotBlank String model,
+                                  @NotBlank String planeNumber) {
 
 }
