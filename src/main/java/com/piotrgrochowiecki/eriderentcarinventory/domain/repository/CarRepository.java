@@ -14,8 +14,6 @@ public interface CarRepository {
 
     Optional<Car> findByUuid(String uuid);
 
-    Optional<Car> findByPlateNumber(String plateNumber);
-
     List<Car> findAll();
 
     boolean existsByPlateNumber(String plateNumber);

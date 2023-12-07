@@ -40,12 +40,6 @@ public class CarEntityRepositoryImpl implements CarRepository {
     }
 
     @Override
-    public Optional<Car> findByPlateNumber(String plateNumber) {
-        return carCRUDRepository.findByPlateNumber(plateNumber)
-                .map(carMapper::mapToModel);
-    }
-
-    @Override
     public List<Car> findAll() {
         return carCRUDRepository.findAll()
                 .stream()
