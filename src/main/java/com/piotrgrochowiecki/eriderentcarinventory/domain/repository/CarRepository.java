@@ -10,11 +10,11 @@ public interface CarRepository {
 
     Car save(Car car);
 
-    Optional<Car> findById(@Nullable Long id);
+    Optional<Car> findById(Long id);
 
-    Optional<Car> findByUuid(@Nullable String uuid);
+    Optional<Car> findByUuid(String uuid);
 
-    Optional<Car> findByPlateNumber(@Nullable String plateNumber);
+    Optional<Car> findByPlateNumber(String plateNumber);
 
     List<Car> findAll();
 

@@ -19,8 +19,7 @@ public class CarEntityRepositoryImpl implements CarRepository {
     private final CarMapper carMapper;
 
     @Override
-    public Car save(@Nullable Car car) {
-        assert car != null;
+    public Car save(Car car) {
         CarEntity carEntity = carMapper.mapToEntity(car);
         UUID uuid = UUID.randomUUID();
         carEntity.setUuid(uuid.toString());
@@ -30,21 +29,18 @@ public class CarEntityRepositoryImpl implements CarRepository {
 
     @Override
     public Optional<Car> findById(Long id) {
-        assert id != null;
         return carCRUDRepository.findById(id)
                 .map(carMapper::mapToModel);
     }
 
     @Override
     public Optional<Car> findByUuid(String uuid) {
-        assert uuid != null;
         return carCRUDRepository.findByUuid(uuid)
                 .map(carMapper::mapToModel);
     }
 
     @Override
     public Optional<Car> findByPlateNumber(String plateNumber) {
-        assert plateNumber != null;
         return carCRUDRepository.findByPlateNumber(plateNumber)
                 .map(carMapper::mapToModel);
     }
