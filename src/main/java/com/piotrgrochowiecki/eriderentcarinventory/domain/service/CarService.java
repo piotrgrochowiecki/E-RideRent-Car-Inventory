@@ -7,6 +7,10 @@ import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Booking;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Car;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.repository.CarRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,6 +44,11 @@ public class CarService {
 
     public List<Car> getAll() {
         return carRepository.findAll();
+    }
+
+    public Page<Car> getAll(Integer pageNumber, Integer pageSize, String propertyToSortBy) {
+        Pageable paging = PageRequest.of(pageNumber, pageSize, Sort.by(propertyToSortBy));
+        return carRepository.findAll(paging);
     }
 
     public List<Car> getAvailableCars(LocalDate newBookingStartDate, LocalDate newBookingEndDate) {
