@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CarEntityRepositoryImpl implements CarRepository {
 
-    private final CarJPARepository carJPARepository;
+    private final CarJpaRepository carJpaRepository;
     private final CarMapper carMapper;
 
     @Override
@@ -24,26 +24,26 @@ public class CarEntityRepositoryImpl implements CarRepository {
         CarEntity carEntity = carMapper.mapToEntity(car);
         UUID uuid = UUID.randomUUID();
         carEntity.setUuid(uuid.toString());
-        CarEntity savedCarEntity = carJPARepository.save(carEntity);
+        CarEntity savedCarEntity = carJpaRepository.save(carEntity);
         return carMapper.mapToModel(savedCarEntity);
     }
 
     @Override
     public Optional<Car> findById(Long id) {
         assert id != null;
-        return carJPARepository.findById(id)
+        return carJpaRepository.findById(id)
                 .map(carMapper::mapToModel);
     }
 
     @Override
     public Optional<Car> findByUuid(String uuid) {
-        return carJPARepository.findByUuid(uuid)
+        return carJpaRepository.findByUuid(uuid)
                 .map(carMapper::mapToModel);
     }
 
     @Override
     public List<Car> findAll() {
-        return carJPARepository.findAll()
+        return carJpaRepository.findAll()
                 .stream()
                 .map(carMapper::mapToModel)
                 .collect(Collectors.toList());
@@ -51,13 +51,13 @@ public class CarEntityRepositoryImpl implements CarRepository {
 
     @Override
     public Page<Car> findAll(Pageable paging) {
-        return carJPARepository.findAll(paging)
+        return carJpaRepository.findAll(paging)
                 .map(carMapper::mapToModel);
     }
 
     @Override
     public boolean existsByPlateNumber(String plateNumber) {
-        return carJPARepository.existsByPlateNumber(plateNumber);
+        return carJpaRepository.existsByPlateNumber(plateNumber);
     }
 
 }

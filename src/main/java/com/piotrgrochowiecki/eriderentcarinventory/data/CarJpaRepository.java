@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface CarJPARepository extends JpaRepository<CarEntity, Long> {
-
-    Optional<CarEntity> findByPlateNumber(String plateNumber);
+public interface CarJpaRepository extends JpaRepository<CarEntity, Long> {
 
     Optional<CarEntity> findByUuid(String uuid);
 
