@@ -6,6 +6,6 @@ import lombok.Builder;
 @Builder
 public record CarCreateRequestDto(@NotBlank String brand,
                                   @NotBlank String model,
-                                  @NotBlank String planeNumber) {
+                                  @NotBlank String plateNumber) {
 
 }
