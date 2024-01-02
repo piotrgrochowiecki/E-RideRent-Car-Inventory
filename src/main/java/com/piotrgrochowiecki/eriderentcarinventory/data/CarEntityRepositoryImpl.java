@@ -5,7 +5,6 @@ import com.piotrgrochowiecki.eriderentcarinventory.domain.repository.CarReposito
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,43 +16,34 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CarEntityRepositoryImpl implements CarRepository {
 
-    private final CarJPARepository carJPARepository;
+    private final CarJpaRepository carJpaRepository;
     private final CarMapper carMapper;
 
     @Override
-    public Car save(@Nullable Car car) {
-        assert car != null;
+    public Car save(Car car) {
         CarEntity carEntity = carMapper.mapToEntity(car);
         UUID uuid = UUID.randomUUID();
         carEntity.setUuid(uuid.toString());
-        CarEntity savedCarEntity = carJPARepository.save(carEntity);
+        CarEntity savedCarEntity = carJpaRepository.save(carEntity);
         return carMapper.mapToModel(savedCarEntity);
     }
 
     @Override
     public Optional<Car> findById(Long id) {
         assert id != null;
-        return carJPARepository.findById(id)
+        return carJpaRepository.findById(id)
                 .map(carMapper::mapToModel);
     }
 
     @Override
     public Optional<Car> findByUuid(String uuid) {
-        assert uuid != null;
-        return carJPARepository.findByUuid(uuid)
-                .map(carMapper::mapToModel);
-    }
-
-    @Override
-    public Optional<Car> findByPlateNumber(String plateNumber) {
-        assert plateNumber != null;
-        return carJPARepository.findByPlateNumber(plateNumber)
+        return carJpaRepository.findByUuid(uuid)
                 .map(carMapper::mapToModel);
     }
 
     @Override
     public List<Car> findAll() {
-        return carJPARepository.findAll()
+        return carJpaRepository.findAll()
                 .stream()
                 .map(carMapper::mapToModel)
                 .collect(Collectors.toList());
@@ -61,13 +51,13 @@ public class CarEntityRepositoryImpl implements CarRepository {
 
     @Override
     public Page<Car> findAll(Pageable paging) {
-        return carJPARepository.findAll(paging)
+        return carJpaRepository.findAll(paging)
                 .map(carMapper::mapToModel);
     }
 
     @Override
     public boolean existsByPlateNumber(String plateNumber) {
-        return carJPARepository.existsByPlateNumber(plateNumber);
+        return carJpaRepository.existsByPlateNumber(plateNumber);
     }
 
 }
