@@ -21,5 +21,8 @@ Run following commands in order:
 </p>
 
 ````
-docker run --name=CarInventoryServiceDB -p 3312:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=1 -e MYSQL_DATABASE=car_inventory_service_db -d mysql:latest
+docker run --name=CarInventoryServiceDB -p 3312:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=1 -e MYSQL_DATABASE=car_inventory_service_db -d mysql:8.2
+````
+````
+docker run --name=CarInventoryServiceIntegrationTestingDB -p 3322:3306 -e MYSQL_ALLOW_EMPTY_PASSWORD=1 -e MYSQL_DATABASE=car_inventory_service_db_for_integration_tests -d mysql:8.2
 ````
