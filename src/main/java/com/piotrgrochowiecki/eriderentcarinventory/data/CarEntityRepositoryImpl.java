@@ -30,7 +30,6 @@ public class CarEntityRepositoryImpl implements CarRepository {
 
     @Override
     public Optional<Car> findById(Long id) {
-        assert id != null;
         return carJpaRepository.findById(id)
                 .map(carMapper::mapToModel);
     }
