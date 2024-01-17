@@ -1,22 +1,15 @@
 package com.piotrgrochowiecki.eriderentcarinventory.remote.client;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.piotrgrochowiecki.eriderentcarinventory.domain.model.Booking;
 import com.piotrgrochowiecki.eriderentcarinventory.remote.dto.BookingResponseDto;
 import com.piotrgrochowiecki.eriderentcarinventory.remote.mapper.BookingApiMapper;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -27,11 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@TestPropertySource(properties = {
-        "url.bookingManagement=http://localhost:8083/",
-        "url.bookingManagement.booking=api/v1/internal/booking/",
-        "url.bookingManagement.booking.overlapping=all-overlapping-with-dates/"
-})
 class BookingManagementApiClientServiceImplTest {
 
     @MockBean
@@ -49,13 +37,6 @@ class BookingManagementApiClientServiceImplTest {
     @MockBean
     private BookingApiMapper bookingApiMapper;
 
-
-    private String BOOKING_MANAGEMENT_HOST;
-
-    private String BOOKING_MANAGEMENT;
-
-    private String BOOKING_MANAGEMENT_OVERLAPPING;
-
     private final BookingManagementApiClientServiceImpl bookingManagementApiClientService;
 
     @Autowired
@@ -66,7 +47,7 @@ class BookingManagementApiClientServiceImplTest {
     }
 
     @Test
-    void shouldReturnListOfBookings() throws JsonProcessingException {
+    void shouldReturnListOfBookings() {
         //given
         LocalDate startDate = LocalDate.of(2023, 10, 18);
         LocalDate endDate = LocalDate.of(2023, 11, 5);
@@ -149,7 +130,6 @@ class BookingManagementApiClientServiceImplTest {
         assertTrue(resultBookingList.contains(booking1));
         assertTrue(resultBookingList.contains(booking2));
         assertTrue(resultBookingList.contains(booking3));
-
     }
 
 }
