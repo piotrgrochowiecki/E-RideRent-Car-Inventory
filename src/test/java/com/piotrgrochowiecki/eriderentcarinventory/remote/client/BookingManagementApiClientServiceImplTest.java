@@ -47,6 +47,9 @@ class BookingManagementApiClientServiceImplTest {
     }
 
     @Test
+    @DisplayName("Given start and end date  of new booking, " +
+            "when external booking management service is called with WebClient which returns list of 3 BookingResponseDto objects, " +
+            "then return list of transformed Booking objects")
     void shouldReturnListOfBookings() {
         //given
         LocalDate startDate = LocalDate.of(2023, 10, 18);
@@ -130,6 +133,30 @@ class BookingManagementApiClientServiceImplTest {
         assertTrue(resultBookingList.contains(booking1));
         assertTrue(resultBookingList.contains(booking2));
         assertTrue(resultBookingList.contains(booking3));
+    }
+
+    @Test
+    @DisplayName(("Given start and end date  of new booking, " +
+            "when external booking management service is called with WebClient which returns null, " +
+            "then throw RuntimeException"))
+    void shouldThrowException() {
+        //given
+        LocalDate startDate = LocalDate.of(2023, 10, 18);
+        LocalDate endDate = LocalDate.of(2023, 11, 5);
+
+        when(webClientMock.get())
+                .thenReturn(requestHeadersUriMock);
+        when(requestHeadersUriMock.uri(anyString()))
+                .thenReturn(requestHeadersMock);
+        when(requestHeadersMock.accept(MediaType.APPLICATION_JSON))
+                .thenReturn(requestHeadersMock);
+        when(requestHeadersMock.retrieve())
+                .thenReturn(responseMock);
+        when(responseMock.bodyToMono(new ParameterizedTypeReference<List<BookingResponseDto>>() {}))
+                .thenReturn(null);
+
+        //when and then
+        assertThrows(RuntimeException.class, () -> bookingManagementApiClientService.getAllBookingsOverlappingWithDates(startDate, endDate));
     }
 
 }
