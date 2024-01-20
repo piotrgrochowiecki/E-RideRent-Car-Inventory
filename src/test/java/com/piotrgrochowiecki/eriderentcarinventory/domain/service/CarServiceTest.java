@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 class CarServiceTest {
 
     @MockBean
@@ -28,8 +30,12 @@ class CarServiceTest {
     @MockBean
     private BookingManagementApiClientService bookingManagementApiClientService;
 
+    private final CarService carService;
+
     @Autowired
-    private CarService carService;
+    public CarServiceTest(CarService carService) {
+        this.carService = carService;
+    }
 
     @BeforeEach
     void setUp() {

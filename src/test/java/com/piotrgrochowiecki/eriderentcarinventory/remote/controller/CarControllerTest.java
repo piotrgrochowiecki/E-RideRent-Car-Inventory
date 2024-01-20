@@ -50,7 +50,6 @@ class CarControllerTest {
     private static String uuid2;
     private static String uuid3;
     private static ObjectMapper mapper;
-    private static Clock fixedClock;
     private static Instant fixedTimestamp;
 
     @Autowired
@@ -66,7 +65,7 @@ class CarControllerTest {
         mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule())
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        fixedClock = Clock.fixed(Instant.parse("2018-08-22T10:00:00Z"),
+        Clock fixedClock = Clock.fixed(Instant.parse("2018-08-22T10:00:00Z"),
                 ZoneOffset.UTC);
         fixedTimestamp = Instant.now(fixedClock);
     }
