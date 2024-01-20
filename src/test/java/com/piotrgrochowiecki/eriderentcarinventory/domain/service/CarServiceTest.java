@@ -7,9 +7,8 @@ import com.piotrgrochowiecki.eriderentcarinventory.domain.repository.CarReposito
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
@@ -22,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 class CarServiceTest {
 
     @MockBean
@@ -31,8 +30,12 @@ class CarServiceTest {
     @MockBean
     private BookingManagementApiClientService bookingManagementApiClientService;
 
+    private final CarService carService;
+
     @Autowired
-    private CarService carService;
+    public CarServiceTest(CarService carService) {
+        this.carService = carService;
+    }
 
     @BeforeEach
     void setUp() {
@@ -70,11 +73,16 @@ class CarServiceTest {
 
         List<Car> allCars = List.of(car1, car2, car3, car4);
 
-        when(carRepository.findAll()).thenReturn(allCars);
-        when(carRepository.findByUuid("uuid1")).thenReturn(Optional.of(car1));
-        when(carRepository.findByUuid("uuid2")).thenReturn(Optional.of(car2));
-        when(carRepository.findByUuid("uuid3")).thenReturn(Optional.of(car3));
-        when(carRepository.findByUuid("uuid4")).thenReturn(Optional.of(car4));
+        when(carRepository.findAll())
+                .thenReturn(allCars);
+        when(carRepository.findByUuid("uuid1"))
+                .thenReturn(Optional.of(car1));
+        when(carRepository.findByUuid("uuid2"))
+                .thenReturn(Optional.of(car2));
+        when(carRepository.findByUuid("uuid3"))
+                .thenReturn(Optional.of(car3));
+        when(carRepository.findByUuid("uuid4"))
+                .thenReturn(Optional.of(car4));
 
         Booking booking1 = Booking.builder()
                 .id(1L)
@@ -126,9 +134,9 @@ class CarServiceTest {
     }
 
     @Test
-    @DisplayName("Given 3 bookings with different cars in requested period and 4 cars available in total" +
-                 "when getAvailableCars method is invoked" +
-                 "it should return list with one car")
+    @DisplayName("Given 3 bookings with different cars in requested period and 4 cars available in total, " +
+                 "when getAvailableCars method is invoked, " +
+                 "then it should return list with one car")
     void shouldReturnListWithOneCar() {
         //given
         Car car4 = Car.builder()
@@ -149,9 +157,9 @@ class CarServiceTest {
     }
 
     @Test
-    @DisplayName("Given 4 bookings with different cars in requested period and 4 cars available in total" +
-                 "when getAvailableCars method is invoked" +
-                 "it should return list with no cars")
+    @DisplayName("Given 4 bookings with different cars in requested period and 4 cars available in total, " +
+                 "when getAvailableCars method is invoked, " +
+                 "then it should return list with no cars")
     void shouldReturnListWithNoCars() {
         //given
 
@@ -164,9 +172,9 @@ class CarServiceTest {
     }
 
     @Test
-    @DisplayName("Given no bookings in requested period and 4 cars available in total" +
-                 "when getAvailableCars method is invoked" +
-                 "it should return list with 4 cars")
+    @DisplayName("Given no bookings in requested period and 4 cars available in total, " +
+                 "when getAvailableCars method is invoked, " +
+                 "then it should return list with 4 cars")
     void shouldReturnListWithFourCars() {
         //given
         Car car1 = Car.builder()

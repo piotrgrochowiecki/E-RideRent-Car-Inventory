@@ -48,7 +48,8 @@ public class CarController {
     @GetMapping("available/{startDate}/{endDate}")
     public List<CarResponseDto> getAvailableCars(@PathVariable("startDate") @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
                                                  @PathVariable("endDate") @NotNull @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
-        return carService.getAvailableCars(startDate, endDate).stream()
+        return carService.getAvailableCars(startDate, endDate)
+                .stream()
                 .map(carApiMapper::mapToCarResponseDto)
                 .collect(Collectors.toList());
     }
